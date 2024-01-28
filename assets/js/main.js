@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search").addEventListener("click", search)
     async function searchByNameApi() {
         addLoader()
+        closeSideNav()
         let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${document.getElementById("searchName").value}`);
         respone = await respone.json();
         detail = respone
@@ -115,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
      }
      async function searchByLetterApi() {
         addLoader()
+        closeSideNav()
         let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${document.getElementById("searchLetter").value}`);
         respone = await respone.json();
         detail = respone
