@@ -71,6 +71,7 @@
    .sidebar{
     left: 0;
     top: 0;
+    width: 45vh;
    }
    .sidebar ul{
     list-style: none;
