@@ -76,6 +76,82 @@ document.addEventListener("DOMContentLoaded", function () {
     // meal detail
     // search
     document.getElementById("search").addEventListener("click", search)
+    async function searchByNameApi() {
+        addLoader()
+        let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${document.getElementById("searchName").value}`);
+        respone = await respone.json();
+        detail = respone
+        removeLoader()
+        searchByName()
+    }
+    document.getElementById("searchName").addEventListener("keyup",searchByNameApi)
+    document.getElementById("searchLetter").addEventListener("keyup",searchByLetterApi)
+    function searchByName() {
+        document.getElementById("rowData").style.display = "flex";
+        document.getElementById("rowData").innerHTML = `<div class="col-md-3">
+        <div
+          class="meal position-relative overflow-hidden rounded-2 cursor-pointer"
+        >
+          <img
+            class="w-100"
+            src="${detail.meals[0].strMealThumb}"
+            alt=""
+            srcset=""
+          />
+          <div
+            class="meal-layer position-absolute d-flex align-items-center text-black p-2"
+          >
+            <h3>${detail.meals[0].strMeal}</h3>
+          </div>
+        </div>
+      </div>`
+      let mealsType = document.querySelectorAll(".meal-layer")
+        mealsType.forEach(element => {
+            element.addEventListener('click', mealName)
+            function mealName() {
+                return mealDetail(element.querySelector("h3").innerHTML)
+            }
+        });
+     }
+     async function searchByLetterApi() {
+        addLoader()
+        let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${document.getElementById("searchLetter").value}`);
+        respone = await respone.json();
+        detail = respone
+        removeLoader()
+        searchByLetter()
+    }
+    function searchByLetter() {
+        document.getElementById("rowData").style.display = "flex";
+        let temp = ""
+        detail.meals.forEach(element => {
+            temp += `<div class="col-md-3">
+            <div
+              class="meal position-relative overflow-hidden rounded-2 cursor-pointer"
+            >
+              <img
+                class="w-100"
+                src="${element.strMealThumb}"
+                alt=""
+                srcset=""
+              />
+              <div
+                class="meal-layer position-absolute d-flex align-items-center text-black p-2"
+              >
+                <h3>${element.strMeal}</h3>
+              </div>
+            </div>
+          </div>`
+        });
+        document.getElementById("rowData").innerHTML = temp
+        let mealsType = document.querySelectorAll(".meal-layer")
+        mealsType.forEach(element => {
+            element.addEventListener('click', mealName)
+            function mealName() {
+                return mealDetail(element.querySelector("h3").innerHTML)
+            }
+        });
+     }
     function search() {
         closeSideNav()
         document.getElementById("searchContainer").style.display = "block";
